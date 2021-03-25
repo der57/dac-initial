@@ -27,23 +27,21 @@ class Dac:
         value = (addr<<12) | (value << 2) | 0b00
 
         self.select(True)
-        print("Select, writing:", end="")
+        #print("Select, writing:", end="")
 
         b = 15
         while b >= 0:
             v = (value >> b) & 1
 
-            print(f"{v}", end="")
+            #print(f"{v}", end="")
 
             self.pi.write(DIN, v)
-            time.sleep(0.001)
             self.pi.write(SCK, 1)
-            time.sleep(0.001)
             self.pi.write(SCK, 0)
             b -= 1
 
         self.select(False)
-        print(", deselect")
+        #print(", deselect")
 
     # Internal function
     def select(self, v):
@@ -59,7 +57,7 @@ def runit(d):
     x = 0
     while True:
         d.send(1, x)
-        time.sleep(0.1)
+        ## time.sleep(0.01)
         x = (x + 1) % 1024
 
 def main():
@@ -76,7 +74,7 @@ def main():
 
     d = Dac(pi)
 
-    if True:
+    if False:
         d.send(1, 512)
         time.sleep(5)
     else:
